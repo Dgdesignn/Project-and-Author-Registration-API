@@ -1,17 +1,14 @@
 const app = require('fastify')({logger:false})
-const knex = require('./src/database/index')
+const authors= require('./src/controller/authorController.js')
 
 
-app.get('/api/authors/', async (req,resp)=>{
-    try {
-        const data = await knex('authors');
-        console.log(data);
-        resp.send(data);
-    } catch (error) {
-        console.error(error);
-        resp.status(500).json({ error: 'Internal Server Error' });
-    }
-})
+
+
+app.get('/api/authors',authors.getAuthors)
+
+app.post('/api/authors',authors.createAuthors)
+app.put('/api/authors/:id',authors.upadateAuthor)
+app.delete('/api/authors/:id',authors.deleteAuthor)
 
 
 
